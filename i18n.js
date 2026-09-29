@@ -552,7 +552,26 @@
     document.body.appendChild(caja);
   }
 
+  // El propio diseño reconstruye la cabecera al cargar y se lleva por delante los iconos del sitio,
+  // así que se vuelven a poner una vez terminada esa reconstrucción.
+  function iconos() {
+    if (document.querySelector('link[rel="icon"]')) return;
+    [
+      ["icon", "favicon-32.png", "32x32"],
+      ["icon", "favicon-512.png", "512x512"],
+      ["apple-touch-icon", "favicon-180.png", "180x180"],
+    ].forEach(function (i) {
+      var l = document.createElement("link");
+      l.rel = i[0];
+      l.type = "image/png";
+      l.href = i[1];
+      l.sizes = i[2];
+      document.head.appendChild(l);
+    });
+  }
+
   function arrancar() {
+    iconos();
     crearSelector();
     aplicar();
     var pendiente = null;
